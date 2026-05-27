@@ -12,23 +12,8 @@ const logger = require("./utils/logger");
 
 const app = express();
 
-const allowedOrigins = [
-  process.env.CLIENT_URL,
-  process.env.QUIZ_CLIENT_URL,
-  process.env.SURVEY_CLIENT_URL,
-].filter(Boolean);
-
-app.use(
-  cors({
-    origin(origin, callback) {
-      if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-      return callback(new Error(`CORS blocked for origin: ${origin}`));
-    },
-    credentials: false,
-  })
-);
+app.use(cors());
+app.options("*", cors());
 
 app.use(express.json({ limit: "1mb" }));
 
